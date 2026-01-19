@@ -1,0 +1,243 @@
+// ==== USUARIOS Y CATÁLOGOS ====
+
+Table users {
+  id int [pk, increment]
+  name varchar(255)
+  email varchar(255) [unique]
+  password varchar(255)
+  deleted_at datetime [null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table types {
+  id int [pk, increment]
+  name varchar(100)
+  is_active boolean [default: true]
+  created_at datetime
+  updated_at datetime
+}
+
+Table brands {
+  id int [pk, increment]
+  name varchar(100)
+  is_active boolean [default: true]
+  created_at datetime
+  updated_at datetime
+}
+
+Table statuses {
+  id int [pk, increment]
+  name varchar(50)
+  color varchar(20)
+  is_active boolean [default: true]
+  created_at datetime
+  updated_at datetime
+}
+
+Table payment_methods {
+  id int [pk, increment]
+  name varchar(50)
+  is_active boolean [default: true]
+  created_at datetime
+  updated_at datetime
+}
+
+Table categories {
+  id int [pk, increment]
+  name varchar(100)
+  is_active boolean [default: true]
+  created_at datetime
+  updated_at datetime
+}
+
+// ==== CLIENTES Y EQUIPOS ====
+
+Table clients {
+  id int [pk, increment]
+  name varchar(150)
+  document_id varchar(50) [null]
+  phone varchar(50) [null]
+  email varchar(150) [null]
+  address text [null]
+  notes text [null]
+  deleted_at datetime [null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table devices {
+  id int [pk, increment]
+  client_id int
+  type_id int
+  brand_id int
+  model varchar(100)
+  serial varchar(100) [null]
+  access_password varchar(150) [null]
+  notes text [null]
+  deleted_at datetime [null]
+  created_at datetime
+  updated_at datetime
+}
+
+// ==== TALLER (SERVICES) ====
+
+Table services {
+  id int [pk, increment]
+  device_id int
+  status_id int
+  received_by int
+  technician_id int [null]
+  closed_by int [null, note: 'usuario que cierra entrega el servicio']
+  problem_reported text
+  diagnosis text [null]
+  title varchar(150) [null, note: 'nombre corto del servicio']
+  work_done text [null]
+  price_service decimal(10,2) [default: 0.00]
+  delivered_at datetime [null]
+  deleted_at datetime [null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table service_logs {
+  id int [pk, increment]
+  service_id int
+  old_status_id int
+  new_status_id int
+  user_id int
+  note text [null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table service_photos {
+  id int [pk, increment]
+  service_id int
+  type varchar(20) [note: 'before, after']
+  path varchar(255)
+  created_at datetime
+  updated_at datetime
+}
+
+// ==== INVENTARIO Y PRODUCTOS ====
+
+Table products {
+  id int [pk, increment]
+  category_id int
+  name varchar(150)
+  sku varchar(100) [null, note: 'código interno']
+  barcode varchar(100) [null, note: 'código de barras']
+  cost_price decimal(10,2)
+  sale_price decimal(10,2)
+  is_active boolean [default: true]
+  deleted_at datetime [null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table parts {
+  id int [pk, increment]
+  service_id int
+  product_id int
+  serial varchar(255) [null, note: 'serial del repuesto instalado']
+  quantity int
+  unit_price decimal(10,2)
+  created_at datetime
+  updated_at datetime
+}
+
+Table stocks {
+  id int [pk, increment]
+  product_id int
+  service_id int [null]
+  sale_id int [null]
+  type varchar(20) // in, out, adjust
+  quantity int
+  note text [null]
+  created_at datetime
+  updated_at datetime
+}
+
+// ==== VENTAS Y PAGOS ====
+
+Table sales {
+  id int [pk, increment]
+  client_id int
+  user_id int
+  service_id int [null, note: 'si viene de un servicio, sino queda null']
+  type varchar(20) [default: 'sale', note: 'sale, service']
+  net_amount decimal(10,2) [default: 0.00, note: 'base sin impuesto']
+  discount_type varchar(10) [default: 'none', note: 'none, percent, amount']
+  discount_value decimal(10,2) [default: 0.00, note: 'porcentaje o monto ingresado']
+  discount_amount decimal(10,2) [default: 0.00, note: 'monto de descuento calculado']
+  tax_percentage decimal(5,2) [default: 0.00, note: 'porcentaje IVA aplicado']
+  tax_amount decimal(10,2) [default: 0.00, note: 'monto de IVA calculado']
+  total_amount decimal(10,2) [note: 'monto total con impuesto']
+  status varchar(20)
+  deleted_at datetime [null]
+  created_at datetime
+  updated_at datetime
+}
+
+Table items {
+  id int [pk, increment]
+  sale_id int
+  product_id int
+  serial varchar(255) [null, note: 'serial del producto vendido']
+  quantity int
+  unit_price decimal(10,2)
+  created_at datetime
+  updated_at datetime
+}
+
+Table payments {
+  id int [pk, increment]
+  sale_id int
+  payment_method_id int
+  note text [null, note: 'referencia, banco, observaciones']
+  amount decimal(10,2)
+  paid_at datetime
+  created_at datetime
+  updated_at datetime
+}
+
+// ==== RELACIONES ====
+
+Ref: devices.client_id > clients.id
+Ref: devices.type_id > types.id
+Ref: devices.brand_id > brands.id
+
+Ref: services.device_id > devices.id
+Ref: services.status_id > statuses.id
+Ref: services.received_by > users.id
+Ref: services.technician_id > users.id
+Ref: services.closed_by > users.id
+
+Ref: service_logs.service_id > services.id
+Ref: service_logs.old_status_id > statuses.id
+Ref: service_logs.new_status_id > statuses.id
+Ref: service_logs.user_id > users.id
+
+Ref: service_photos.service_id > services.id
+
+Ref: products.category_id > categories.id
+Ref: parts.service_id > services.id
+Ref: parts.product_id > products.id
+
+Ref: stocks.product_id > products.id
+Ref: stocks.service_id > services.id
+Ref: stocks.sale_id > sales.id
+
+Ref: sales.client_id > clients.id
+Ref: sales.user_id > users.id
+Ref: items.sale_id > sales.id
+Ref: items.product_id > products.id
+Ref: payments.sale_id > sales.id
+Ref: payments.payment_method_id > payment_methods.id
+
+// NOTA: Orden recomendado de migraciones
+// 1) users, types, brands, statuses, payment_methods, categories
+// 2) clients, devices
+// 3) services, service_logs, service_photos
+// 4) products, sales, items, payments, parts, stocks
