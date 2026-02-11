@@ -37,7 +37,7 @@ class UserForm
                     ->multiple()
                     ->relationship(
                         name: 'roles',
-                        titleAttribute: 'name',
+                        titleAttribute: 'display_name',
                         modifyQueryUsing: function (Builder $query) {
                              /** @var User|null $user */
                             $user = Filament::auth()->user();
