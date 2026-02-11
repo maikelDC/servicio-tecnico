@@ -1,34 +1,26 @@
 <?php
 
-namespace App\Filament\Resources\Clients\Schemas;
+namespace App\Filament\Resources\Users\Schemas;
 
-use App\Models\Client;
+use App\Models\User;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class ClientInfolist
+class UserInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextEntry::make('name'),
-                TextEntry::make('document_id')
-                    ->placeholder('-'),
-                TextEntry::make('phone')
-                    ->placeholder('-'),
                 TextEntry::make('email')
-                    ->label('Email address')
+                    ->label('Email address'),
+                TextEntry::make('email_verified_at')
+                    ->dateTime()
                     ->placeholder('-'),
-                TextEntry::make('address')
-                    ->placeholder('-')
-                    ->columnSpanFull(),
-                TextEntry::make('notes')
-                    ->placeholder('-')
-                    ->columnSpanFull(),
                 TextEntry::make('deleted_at')
                     ->dateTime()
-                    ->visible(fn (Client $record): bool => $record->trashed()),
+                    ->visible(fn (User $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

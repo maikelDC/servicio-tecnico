@@ -48,6 +48,8 @@ class User extends Authenticatable
         ];
     }
 
+        // Relationships
+        
     public function receivedServices()
     {
         return $this->hasMany(Service::class, 'received_by');
@@ -66,5 +68,13 @@ class User extends Authenticatable
     public function sales()
     {
         return $this->hasMany(Sale::class);
+    }
+
+    //Accessors 
+    
+    public function getTitleAttribute(): string
+    {
+    $role = $this->roles->first()?->name ?? 'No Role';
+    return "{$this->name} ({$role})";
     }
 }
