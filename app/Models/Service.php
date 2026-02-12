@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -75,4 +76,18 @@ class Service extends Model
         return $this->hasOne(Sale::class);
     }
 
+    //Scopes
+
+    public function scopeNotDeleted(Builder $query): Builder
+    {
+        return $query->whereNull('deleted_at');
+    }
+
+    // Accessors
+
+    public function getTitleAttribute(): string
+    {
+        $status = $this->status->name ?? 'N/A';
+        return "#{$this->id} - {$this->attributes['title']} ({$status})";
+    }
 }

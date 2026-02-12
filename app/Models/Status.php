@@ -14,9 +14,29 @@ class Status extends Model
         'is_active',
     ];
 
+        // Relationships
+
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);
+    }
+
+            // Accessors
+      public function getDisplayNameAttribute(): string
+    {
+        return match ($this->name)
+        {
+            'received' => 'Recibido',
+            'diagnosing' => 'En Diagnóstico',
+            'waiting_customer' => 'Esperando respuesta del cliente',
+            'approved' => 'Aprobado',
+            'in_progress' => 'En Progreso',
+            'ready_for_pickup' => 'Listo para recoger',
+            'delivered' => 'Entregado',
+            'canceled' => 'Cancelado',
+            default => $this->name,
+
+        };
     }
 
     //Scopes
