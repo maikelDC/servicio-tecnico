@@ -17,9 +17,12 @@ class DevicesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('client.name')
-                    ->searchable(),
+                    ->label('Cliente')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('type.name')
                     ->searchable(),
                 TextColumn::make('brand.name')
@@ -27,6 +30,7 @@ class DevicesTable
                 TextColumn::make('model')
                     ->searchable(),
                 TextColumn::make('serial')
+                    ->label('Serial')
                     ->searchable(),
                 TextColumn::make('deleted_at')
                     ->dateTime()
