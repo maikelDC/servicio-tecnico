@@ -7,6 +7,7 @@ use App\Filament\Resources\Brands\BrandResource;
 use App\Filament\Resources\Clients\Schemas\ClientForm;
 use App\Filament\Resources\Types\TypeResource;
 use App\Models\Client;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -54,7 +55,7 @@ class DeviceForm
 
                             ])
                             ->columns(2),
-                        Tab::make('Detalles del equipo')
+                        Repeater::make('Detalles del equipo')
                             ->schema([
                                 Select::make('type_id')
                                     ->label('Tipo')
