@@ -241,6 +241,6 @@ El asistente debe continuar desde este siguiente paso, eligiendo un Resource con
 ---
 
 
-<!-- Proyecto: https://github.com/drfoxsoscomputer/servicio-tecnico
+<!-- Proyecto: https://github.com/maikelDC/servicio-tecnico
 El contexto, reglas, fases y estado actual están en docs/assistant-context.md del repo.
 Actúa siguiendo ese archivo (no inventes nada fuera de lo que ahí se define) y continúa desde la fase y el “siguiente paso” que allí se indique. -->
