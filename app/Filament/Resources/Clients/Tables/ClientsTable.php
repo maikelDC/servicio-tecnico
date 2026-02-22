@@ -11,6 +11,8 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
+use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
 
 class ClientsTable
 {
@@ -27,8 +29,9 @@ class ClientsTable
                     ->label('Cédula / Rif')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('phone')
+                PhoneColumn::make('phone')
                     ->label('Teléfono')
+                    ->displayFormat(PhoneInputNumberType::NATIONAL)
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
@@ -36,14 +39,17 @@ class ClientsTable
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label('Eliminado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

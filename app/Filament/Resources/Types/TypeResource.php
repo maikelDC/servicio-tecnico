@@ -31,9 +31,13 @@ class TypeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Catalogos';
+    protected static string|UnitEnum|null $navigationGroup = 'Catálogos';
 
-    protected static ?string $modelLabel = 'Type';
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $modelLabel = 'Tipo';
+
+    protected static ?string $pluralModelLabel = 'Tipos';
 
     public static function form(Schema $schema): Schema
     {
@@ -44,7 +48,7 @@ class TypeResource extends Resource
                     ->maxLength(255)
                     ->required(),
                 Toggle::make('is_active')
-                    ->label('Active')
+                    ->label('Activo')
                     ->default(true)
                     ->required(),
             ]);
@@ -72,22 +76,26 @@ class TypeResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable()
                     ->sortable(),
                 IconColumn::make('is_active')
+                    ->label('Activo')
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->boolean()
+                    ->label('Estado')
                     ->trueLabel('Solo activos')
                     ->falseLabel('Solo inactivos')
                     ->placeholder('Todos'),

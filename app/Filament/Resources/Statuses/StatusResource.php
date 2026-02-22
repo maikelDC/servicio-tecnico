@@ -28,9 +28,15 @@ class StatusResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Catalogos';
+    protected static string|UnitEnum|null $navigationGroup = 'Catálogos';
 
     protected static ?string $recordTitleAttribute = 'display_name';
+
+    protected static ?int $navigationSort = 4;
+
+    protected static ?string $modelLabel = 'Estado';
+
+    protected static ?string $pluralModelLabel = 'Estados';
 
     public static function form(Schema $schema): Schema
     {
@@ -56,6 +62,7 @@ class StatusResource extends Resource
             ->recordTitleAttribute('display_name')
             ->columns([
                 TextColumn::make('name')
+                    ->label('Clave')
                     ->searchable()
                     ->sortable(),
                 ColorColumn::make('color')
@@ -76,8 +83,7 @@ class StatusResource extends Resource
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Activo')
-                    ->boolean()
+                    ->label('Estado')
                     ->trueLabel('Solo activos')
                     ->falseLabel('Solo inactivos')
                     ->placeholder('Todos'),

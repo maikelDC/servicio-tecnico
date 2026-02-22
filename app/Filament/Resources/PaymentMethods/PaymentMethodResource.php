@@ -26,11 +26,15 @@ class PaymentMethodResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Catalogos';
+    protected static string|UnitEnum|null $navigationGroup = 'Catálogos';
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = 'Payment Method';
+    protected static ?int $navigationSort = 5;
+
+    protected static ?string $modelLabel = 'Método de pago';
+
+    protected static ?string $pluralModelLabel = 'Métodos de pago';
 
     public static function form(Schema $schema): Schema
     {
@@ -40,7 +44,7 @@ class PaymentMethodResource extends Resource
                     ->placeholder('Ej. Efectivo, Pago móvil, Transferencia')
                     ->required()
                     ->maxLength(255),
-                 Toggle::make('is_active')
+                Toggle::make('is_active')
                     ->label('Activo')
                     ->default(true),
             ]);
@@ -53,9 +57,10 @@ class PaymentMethodResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable()
                     ->sortable(),
-                 IconColumn::make('is_active')
+                IconColumn::make('is_active')
                     ->label('Activo')
                     ->boolean(),
                 TextColumn::make('created_at')
@@ -70,7 +75,7 @@ class PaymentMethodResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                 TernaryFilter::make('is_active')
+                TernaryFilter::make('is_active')
                     ->label('Estado')
                     ->trueLabel('Solo activos')
                     ->falseLabel('Solo inactivos')

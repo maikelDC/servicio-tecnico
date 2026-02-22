@@ -29,11 +29,15 @@ class BrandResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-     protected static string | UnitEnum| null $navigationGroup = 'Catalogos';
+    protected static string|UnitEnum|null $navigationGroup = 'Catálogos';
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = 'Brand';
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $modelLabel = 'Marca';
+
+    protected static ?string $pluralModelLabel = 'Marcas';
 
     public static function form(Schema $schema): Schema
     {
@@ -44,7 +48,7 @@ class BrandResource extends Resource
                     ->maxLength(255)
                     ->required(),
                 Toggle::make('is_active')
-                    ->label('Active')
+                    ->label('Activo')
                     ->default(true)
                     ->required(),
             ]);
@@ -72,22 +76,25 @@ class BrandResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable()
                     ->sortable(),
                 IconColumn::make('is_active')
-                    ->label('Active')
+                    ->label('Activo')
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                 TernaryFilter::make('is_active')
+                TernaryFilter::make('is_active')
                     ->label('Estado')
                     ->trueLabel('Solo activos')
                     ->falseLabel('Solo inactivos')

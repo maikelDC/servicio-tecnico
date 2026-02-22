@@ -24,23 +24,33 @@ class DevicesTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('type.name')
-                    ->searchable(),
+                    ->label('Tipo')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('brand.name')
-                    ->searchable(),
+                    ->label('Marca')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('model')
-                    ->searchable(),
+                    ->label('Modelo')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('serial')
-                    ->label('Serial')
-                    ->searchable(),
+                    ->label('N.º de serie')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('deleted_at')
+                    ->label('Eliminado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label('Creado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -26,8 +26,14 @@ class DeviceResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'title';
-    
-    protected static string | UnitEnum | null $navigationGroup = 'Store';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Clientes y equipos';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $modelLabel = 'Equipo';
+
+    protected static ?string $pluralModelLabel = 'Equipos';
 
     public static function form(Schema $schema): Schema
     {
